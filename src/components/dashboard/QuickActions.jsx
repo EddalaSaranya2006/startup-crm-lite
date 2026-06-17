@@ -1,0 +1,84 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, List, Download } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+
+/**
+ * QuickActions Component
+ * Renders quick access buttons for common operations: Add New Lead, View All Leads, and Export Data.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} [props.onAddLead] - Callback when "Add New Lead" is clicked (optional).
+ * @returns {React.ReactElement} The QuickActions component.
+ */
+const QuickActions = ({ onAddLead }) => {
+  const navigate = useNavigate();
+  const [isExporting, setIsExporting] = useState(false);
+
+  /**
+   * Handles the export data action, simulating a download delay with toast feedback.
+   */
+  const handleExport = () => {
+    if (isExporting) return;
+    setIsExporting(true);
+
+    const toastId = toast.loading('Preparing data export...', {
+      style: {
+        borderRadius: '12px',
+        background: '#0F172A',
+        color: '#FFF',
+      },
+    });
+
+    setTimeout(() => {
+      toast.success('Leads data exported successfully as CSV!', {
+        id: toastId,
+        duration: 3000,
+        style: {
+          borderRadius: '12px',
+          background: '#0F172A',
+          color: '#FFF',
+        },
+      });
+      setIsExporting(false);
+    }, 1500);
+  };
+
+  return (
+    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-xs">
+      <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
+      <div className="flex flex-col gap-3">
+        {/* Add New Lead Button */}
+        <button
+          onClick={onAddLead || (() => navigate('/leads', { state: { openAddModal: true } }))}
+          className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/95 text-white font-semibold py-3 px-4 rounded-xl shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer"
+        >
+          <Plus className="w-5 h-5 stroke-[2.5]" />
+          <span>Add New Lead</span>
+        </button>
+
+        {/* View All Leads Button */}
+        <button
+          onClick={() => navigate('/leads')}
+          className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 cursor-pointer"
+        >
+          <List className="w-5 h-5 text-gray-500" />
+          <span>View All Leads</span>
+        </button>
+
+        {/* Export Data Button */}
+        <button
+          onClick={handleExport}
+          disabled={isExporting}
+          className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Download className={`w-5 h-5 text-gray-500 ${isExporting ? 'animate-bounce' : ''}`} />
+          <span>{isExporting ? 'Exporting...' : 'Export Data'}</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default QuickActions;
