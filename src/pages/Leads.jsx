@@ -1,102 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Plus, Search, Grid, List, X, Filter } from 'lucide-react';
+import { Plus, Grid, List, X } from 'lucide-react';
 import { toast, Toaster } from 'react-hot-toast';
 import LeadTable from '../components/leads/LeadTable';
 import LeadCard from '../components/leads/LeadCard';
 import LeadForm from '../components/leads/LeadForm';
-
-// Initial leads database matching dashboard seed data
-const INITIAL_LEADS = [
-  {
-    id: '1',
-    name: 'Jane Doe',
-    company: 'Acme Corp',
-    status: 'Won',
-    email: 'jane@acme.com',
-    phone: '(555) 123-4567',
-    source: 'LinkedIn',
-    value: 15000,
-    dateAdded: '2026-06-15T09:30:00.000Z',
-  },
-  {
-    id: '2',
-    name: 'John Smith',
-    company: 'Beta Inc',
-    status: 'Contacted',
-    email: 'john@betainc.com',
-    phone: '(555) 234-5678',
-    source: 'Website',
-    value: 8500,
-    dateAdded: '2026-06-14T14:15:00.000Z',
-  },
-  {
-    id: '3',
-    name: 'Alice Johnson',
-    company: 'Gamma LLC',
-    status: 'Proposal Sent',
-    email: 'alice@gammallc.com',
-    phone: '(555) 345-6789',
-    source: 'Referral',
-    value: 24000,
-    dateAdded: '2026-06-12T10:00:00.000Z',
-  },
-  {
-    id: '4',
-    name: 'Bob Brown',
-    company: 'Delta Co',
-    status: 'New',
-    email: 'bob@deltaco.com',
-    phone: '(555) 456-7890',
-    source: 'Cold Call',
-    value: 5000,
-    dateAdded: '2026-06-10T16:45:00.000Z',
-  },
-  {
-    id: '5',
-    name: 'Charlie Green',
-    company: 'Epsilon Ltd',
-    status: 'Lost',
-    email: 'charlie@epsilon.com',
-    phone: '(555) 567-8901',
-    source: 'Email Campaign',
-    value: 3200,
-    dateAdded: '2026-06-08T11:20:00.000Z',
-  },
-  {
-    id: '6',
-    name: 'Diana Prince',
-    company: 'Wayne Enterprises',
-    status: 'Won',
-    email: 'diana@wayne.com',
-    phone: '(555) 678-9012',
-    source: 'LinkedIn',
-    value: 50000,
-    dateAdded: '2026-06-05T09:00:00.000Z',
-  },
-  {
-    id: '7',
-    name: 'Evan Wright',
-    company: 'Apex Corp',
-    status: 'Proposal Sent',
-    email: 'evan@apex.com',
-    phone: '(555) 789-0123',
-    source: 'Website',
-    value: 12000,
-    dateAdded: '2026-06-03T15:30:00.000Z',
-  },
-  {
-    id: '8',
-    name: 'Fiona Gallagher',
-    company: 'South Side Corp',
-    status: 'Contacted',
-    email: 'fiona@southside.com',
-    phone: '(555) 890-1234',
-    source: 'Other',
-    value: 4500,
-    dateAdded: '2026-06-01T10:00:00.000Z',
-  },
-];
+import SearchBar from '../components/common/SearchBar';
+import FilterBar from '../components/common/FilterBar';
+import EmptyState from '../components/common/EmptyState';
+import { useLeads } from '../context/LeadContext';
 
 /**
  * Leads Management Page Component
@@ -107,9 +19,7 @@ const INITIAL_LEADS = [
  */
 const Leads = () => {
   const location = useLocation();
-
-  // Core data state
-  const [leads, setLeads] = useState(INITIAL_LEADS);
+  const { leads, addLead, updateLead, deleteLead } = useLeads();
 
   // Derive initial modal state from router location (e.g. Quick Actions → Add Lead).
   // Using lazy useState avoids calling setState inside an effect.
@@ -118,11 +28,8 @@ const Leads = () => {
   );
   const [selectedLead, setSelectedLead] = useState(null);
   const [viewMode, setViewMode] = useState('table'); // 'table' or 'card'
-
-  // Filter and Search State
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All');
-  const [sourceFilter, setSourceFilter] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState('All');
 
   // Clear the routing flag from history on mount so a reload doesn't reopen the modal.
   // This effect never calls setState — it only touches the browser history API.
@@ -133,10 +40,6 @@ const Leads = () => {
       didClearRouteState.current = true;
     }
   }, [location.state]);
-
-  // Options lists
-  const statusOptions = ['New', 'Contacted', 'Meeting Scheduled', 'Proposal Sent', 'Won', 'Lost'];
-  const sourceOptions = ['Website', 'Referral', 'LinkedIn', 'Cold Call', 'Email Campaign', 'Other'];
 
   /**
    * Opens the lead form modal in CREATE mode.
@@ -166,7 +69,7 @@ const Leads = () => {
     if (!leadToDelete) return;
 
     if (window.confirm(`Are you sure you want to delete the lead for "${leadToDelete.name}"?`)) {
-      setLeads((prev) => prev.filter((l) => l.id !== id));
+      deleteLead(id);
       
       // Toast notification styled in Red for deletion
       toast.error(`Lead "${leadToDelete.name}" was deleted.`, {
@@ -188,9 +91,7 @@ const Leads = () => {
   const handleFormSubmit = (formData) => {
     if (selectedLead) {
       // Edit mode: Update existing item
-      setLeads((prev) =>
-        prev.map((l) => (l.id === selectedLead.id ? { ...l, ...formData } : l))
-      );
+      updateLead(selectedLead.id, formData);
       toast.success(`Changes to "${formData.name}" saved successfully!`, {
         style: {
           borderRadius: '12px',
@@ -200,12 +101,7 @@ const Leads = () => {
       });
     } else {
       // Create mode: Append new item
-      const newLeadObj = {
-        ...formData,
-        id: Date.now().toString(),
-        dateAdded: new Date().toISOString(),
-      };
-      setLeads((prev) => [newLeadObj, ...prev]);
+      addLead(formData);
       toast.success(`New lead for "${formData.name}" created!`, {
         style: {
           borderRadius: '12px',
@@ -218,26 +114,22 @@ const Leads = () => {
     setSelectedLead(null);
   };
 
-  // Filter and search computation logic
-  const filteredLeads = leads.filter((lead) => {
-    const matchesSearch =
-      lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lead.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lead.email.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesStatus = statusFilter === 'All' || lead.status === statusFilter;
-    const matchesSource = sourceFilter === 'All' || lead.source === sourceFilter;
-
-    return matchesSearch && matchesStatus && matchesSource;
-  });
+  const filteredLeads = leads
+    .filter((lead) => activeFilter === 'All' || lead.status === activeFilter)
+    .filter(
+      (lead) =>
+        lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.email.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   const resetFilters = () => {
-    setSearchTerm('');
-    setStatusFilter('All');
-    setSourceFilter('All');
+    setSearchQuery('');
+    setActiveFilter('All');
   };
 
-  const hasActiveFilters = searchTerm !== '' || statusFilter !== 'All' || sourceFilter !== 'All';
+  const hasActiveFilters = searchQuery !== '' || activeFilter !== 'All';
+  const showEmptyState = filteredLeads.length === 0;
 
   return (
     <div className="p-6 md:p-8 min-h-screen bg-background">
@@ -265,52 +157,15 @@ const Leads = () => {
       {/* Filter Action Bar */}
       <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-xs mb-6 space-y-4">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
-          {/* Search Field */}
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search leads by name, company, or email..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-gray-900"
+          <div className="flex-1">
+            <SearchBar
+              key={searchQuery === '' ? 'empty-search' : 'active-search'}
+              value={searchQuery}
+              onChange={setSearchQuery}
             />
           </div>
 
-          {/* Filters & Toggles Wrapper */}
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Status Filter Dropdown */}
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-gray-400 shrink-0" />
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-gray-900 transition-all cursor-pointer"
-              >
-                <option value="All">All Statuses</option>
-                {statusOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Source Filter Dropdown */}
-            <select
-              value={sourceFilter}
-              onChange={(e) => setSourceFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-gray-900 transition-all cursor-pointer"
-            >
-              <option value="All">All Sources</option>
-              {sourceOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-
-            {/* View Mode Toggle Controls */}
+          <div className="flex items-center justify-end">
             <div className="flex items-center border border-gray-200 rounded-xl p-1 bg-gray-50/50">
               <button
                 onClick={() => setViewMode('table')}
@@ -336,30 +191,25 @@ const Leads = () => {
           </div>
         </div>
 
-        {/* Active Filter Clear Badges */}
+        <div className="border-t border-gray-100 pt-4 transition-all duration-300">
+          <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} leads={leads} />
+        </div>
+
         {hasActiveFilters && (
           <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-gray-100">
             <span className="text-xs font-semibold text-gray-500 mr-1">Active filters:</span>
-            {searchTerm && (
+            {searchQuery && (
               <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-lg border border-blue-100">
-                Search: "{searchTerm}"
-                <button onClick={() => setSearchTerm('')} className="hover:text-blue-900">
+                Search: "{searchQuery}"
+                <button onClick={() => setSearchQuery('')} className="hover:text-blue-900">
                   <X className="w-3 h-3" />
                 </button>
               </span>
             )}
-            {statusFilter !== 'All' && (
+            {activeFilter !== 'All' && (
               <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-lg border border-blue-100">
-                Status: {statusFilter}
-                <button onClick={() => setStatusFilter('All')} className="hover:text-blue-900">
-                  <X className="w-3 h-3" />
-                </button>
-              </span>
-            )}
-            {sourceFilter !== 'All' && (
-              <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-lg border border-blue-100">
-                Source: {sourceFilter}
-                <button onClick={() => setSourceFilter('All')} className="hover:text-blue-900">
+                Status: {activeFilter}
+                <button onClick={() => setActiveFilter('All')} className="hover:text-blue-900">
                   <X className="w-3 h-3" />
                 </button>
               </span>
@@ -378,10 +228,8 @@ const Leads = () => {
       <div>
         {/* Responsive Check: Table view is hidden on screens below 'lg' where cards stack */}
         <div className="lg:hidden">
-          {filteredLeads.length === 0 ? (
-            <div className="bg-white border border-gray-100 rounded-2xl p-10 text-center text-gray-400 text-sm">
-              No leads found matching your criteria.
-            </div>
+          {showEmptyState ? (
+            <EmptyState hasLeads={leads.length > 0} onClearFilters={resetFilters} />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredLeads.map((lead) => (
@@ -398,12 +246,10 @@ const Leads = () => {
 
         {/* Large screen layout obeys the selected toggle mode */}
         <div className="hidden lg:block">
-          {viewMode === 'table' ? (
-            <LeadTable
-              leads={filteredLeads}
-              onEdit={handleEditClick}
-              onDelete={handleDeleteClick}
-            />
+          {showEmptyState ? (
+            <EmptyState hasLeads={leads.length > 0} onClearFilters={resetFilters} />
+          ) : viewMode === 'table' ? (
+            <LeadTable leads={filteredLeads} onEdit={handleEditClick} onDelete={handleDeleteClick} />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredLeads.map((lead) => (

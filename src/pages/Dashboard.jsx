@@ -5,82 +5,7 @@ import StatsCard from '../components/dashboard/StatsCard';
 import PipelineOverview from '../components/dashboard/PipelineOverview';
 import RecentLeads from '../components/dashboard/RecentLeads';
 import QuickActions from '../components/dashboard/QuickActions';
-
-// Sample leads dataset representing starting data for the application
-const INITIAL_LEADS = [
-  {
-    id: '1',
-    name: 'Jane Doe',
-    company: 'Acme Corp',
-    status: 'Won',
-    email: 'jane@acme.com',
-    value: 15000,
-    dateAdded: '2026-06-15T09:30:00.000Z',
-  },
-  {
-    id: '2',
-    name: 'John Smith',
-    company: 'Beta Inc',
-    status: 'Contacted',
-    email: 'john@betainc.com',
-    value: 8500,
-    dateAdded: '2026-06-14T14:15:00.000Z',
-  },
-  {
-    id: '3',
-    name: 'Alice Johnson',
-    company: 'Gamma LLC',
-    status: 'Proposal',
-    email: 'alice@gammallc.com',
-    value: 24000,
-    dateAdded: '2026-06-12T10:00:00.000Z',
-  },
-  {
-    id: '4',
-    name: 'Bob Brown',
-    company: 'Delta Co',
-    status: 'New',
-    email: 'bob@deltaco.com',
-    value: 5000,
-    dateAdded: '2026-06-10T16:45:00.000Z',
-  },
-  {
-    id: '5',
-    name: 'Charlie Green',
-    company: 'Epsilon Ltd',
-    status: 'Lost',
-    email: 'charlie@epsilon.com',
-    value: 3200,
-    dateAdded: '2026-06-08T11:20:00.000Z',
-  },
-  {
-    id: '6',
-    name: 'Diana Prince',
-    company: 'Wayne Enterprises',
-    status: 'Won',
-    email: 'diana@wayne.com',
-    value: 50000,
-    dateAdded: '2026-06-05T09:00:00.000Z',
-  },
-  {
-    id: '7',
-    name: 'Evan Wright',
-    company: 'Apex Corp',
-    status: 'Proposal',
-    email: 'evan@apex.com',
-    value: 12000,
-    dateAdded: '2026-06-03T15:30:00.000Z',
-  },
-  {
-    id: '8',
-    name: 'Fiona Gallagher',
-    company: 'South Side Corp',
-    status: 'Contacted',
-    email: 'fiona@southside.com',
-    value: 4500,
-    dateAdded: '2026-06-01T10:00:00.000Z',
-  },
-];
+import { useLeads } from '../context/LeadContext';
 
 /**
  * Dashboard Component
@@ -90,22 +15,24 @@ const INITIAL_LEADS = [
  * @returns {React.ReactElement} The Dashboard page.
  */
 const Dashboard = () => {
-  const [leads, setLeads] = useState(INITIAL_LEADS);
+  const { leads, addLead } = useLeads();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newLead, setNewLead] = useState({
     name: '',
     company: '',
     email: '',
+    phone: '',
     status: 'New',
+    source: 'Website',
     value: '',
   });
 
   // Calculate Metrics dynamically
   const totalLeads = leads.length;
   
-  // Pipeline Value = sum of values of all active deals (New, Contacted, Proposal)
+  // Pipeline Value = sum of values of all active deals.
   const pipelineValue = leads.reduce((sum, lead) => {
-    if (['new', 'contacted', 'proposal'].includes(lead.status.toLowerCase())) {
+    if (['new', 'contacted', 'meeting scheduled', 'proposal sent'].includes(lead.status.toLowerCase())) {
       return sum + (lead.value || 0);
     }
     return sum;
@@ -136,26 +63,28 @@ const Dashboard = () => {
     }
 
     const leadToAdd = {
-      id: Date.now().toString(),
       name: newLead.name.trim(),
       company: newLead.company.trim(),
-      email: newLead.email.trim() || undefined,
+      email: newLead.email.trim(),
+      phone: newLead.phone.trim(),
       status: newLead.status,
+      source: newLead.source,
       value: Number(newLead.value) || 0,
-      dateAdded: new Date().toISOString(),
     };
 
-    setLeads((prevLeads) => [leadToAdd, ...prevLeads]);
+    const createdLead = addLead(leadToAdd);
     setIsAddModalOpen(false);
     setNewLead({
       name: '',
       company: '',
       email: '',
+      phone: '',
       status: 'New',
+      source: 'Website',
       value: '',
     });
 
-    toast.success(`Lead for "${leadToAdd.name}" added successfully!`, {
+    toast.success(`Lead for "${createdLead.name}" added successfully!`, {
       style: {
         borderRadius: '12px',
         background: '#0F172A',
@@ -341,7 +270,8 @@ const Dashboard = () => {
                     >
                       <option value="New">New</option>
                       <option value="Contacted">Contacted</option>
-                      <option value="Proposal">Proposal</option>
+                      <option value="Meeting Scheduled">Meeting Scheduled</option>
+                      <option value="Proposal Sent">Proposal Sent</option>
                       <option value="Won">Won</option>
                       <option value="Lost">Lost</option>
                     </select>

@@ -4,7 +4,7 @@
  * @property {string|number} id - Unique identifier for the lead.
  * @property {string} name - Name of the lead contact.
  * @property {string} company - Name of the lead's company.
- * @property {string} status - Pipeline stage status (e.g., 'New', 'Contacted', 'Proposal', 'Won', 'Lost').
+ * @property {string} status - Pipeline stage status (e.g., 'New', 'Contacted', 'Meeting Scheduled', 'Proposal Sent', 'Won', 'Lost').
  * @property {number} value - Financial value of the lead.
  * @property {string} dateAdded - ISO date string when the lead was added.
  */
@@ -19,16 +19,17 @@
  * @returns {React.ReactElement} The RecentLeads component.
  */
 const RecentLeads = ({ leads = [] }) => {
-  // Sort leads by dateAdded descending, then take the first 5
+  // Sort leads by createdAt descending, then take the first 5
   const recentLeads = [...leads]
-    .sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded))
+    .sort((a, b) => new Date(b.createdAt || b.dateAdded) - new Date(a.createdAt || a.dateAdded))
     .slice(0, 5);
 
   // Status badge style mapping
   const statusBadgeStyles = {
     new: 'text-primary bg-primary/10 border border-primary/20',
     contacted: 'text-warning bg-warning/10 border border-warning/20',
-    proposal: 'text-indigo-600 bg-indigo-50 border border-indigo-100',
+    'meeting scheduled': 'text-sky-600 bg-sky-50 border border-sky-100',
+    'proposal sent': 'text-indigo-600 bg-indigo-50 border border-indigo-100',
     won: 'text-success bg-success/10 border border-success/20',
     lost: 'text-danger bg-danger/10 border border-danger/20',
   };
@@ -81,7 +82,7 @@ const RecentLeads = ({ leads = [] }) => {
               </tr>
             ) : (
               recentLeads.map((lead) => {
-                const normalizedStatus = (lead.status || 'New').toLowerCase();
+                const normalizedStatus = (lead.status === 'Proposal' ? 'Proposal Sent' : lead.status || 'New').toLowerCase();
                 const badgeStyle = statusBadgeStyles[normalizedStatus] || 'text-gray-600 bg-gray-100 border-gray-200';
 
                 return (
@@ -106,7 +107,7 @@ const RecentLeads = ({ leads = [] }) => {
                     <td className="px-6 py-4 text-sm font-semibold text-gray-900 font-roboto">
                       ${(lead.value || 0).toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">{formatDate(lead.dateAdded)}</td>
+                    <td className="px-6 py-4 text-sm text-gray-500">{formatDate(lead.createdAt || lead.dateAdded)}</td>
                   </tr>
                 );
               })
