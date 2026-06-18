@@ -46,13 +46,13 @@ const QuickActions = ({ onAddLead }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-xs">
-      <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-xs dark:shadow-none">
+      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
       <div className="flex flex-col gap-3">
         {/* Add New Lead Button */}
         <button
           onClick={onAddLead || (() => navigate('/leads', { state: { openAddModal: true } }))}
-          className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/95 text-white font-semibold py-3 px-4 rounded-xl shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/95 text-white font-semibold py-3 px-4 rounded-xl shadow-xs dark:shadow-none hover:shadow-md transition-all duration-200 cursor-pointer"
         >
           <Plus className="w-5 h-5 stroke-[2.5]" />
           <span>Add New Lead</span>
@@ -61,9 +61,9 @@ const QuickActions = ({ onAddLead }) => {
         {/* View All Leads Button */}
         <button
           onClick={() => navigate('/leads')}
-          className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-300 transition-all duration-200 cursor-pointer"
         >
-          <List className="w-5 h-5 text-gray-500" />
+          <List className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           <span>View All Leads</span>
         </button>
 
@@ -71,9 +71,9 @@ const QuickActions = ({ onAddLead }) => {
         <button
           onClick={handleExport}
           disabled={isExporting}
-          className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-300 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Download className={`w-5 h-5 text-gray-500 ${isExporting ? 'animate-bounce' : ''}`} />
+          <Download className={`w-5 h-5 text-gray-500 dark:text-gray-400 ${isExporting ? 'animate-bounce' : ''}`} />
           <span>{isExporting ? 'Exporting...' : 'Export Data'}</span>
         </button>
       </div>

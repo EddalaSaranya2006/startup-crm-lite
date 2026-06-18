@@ -2,6 +2,7 @@
 
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
 
 @theme {
     --font-roboto:  "Roboto", sans-serif;
@@ -16,4 +17,15 @@
     --color-text-gray: #64748B;
 }
 
+@layer base {
+  body {
+    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-200;
+  }
+}
 
+.dark {
+    --color-background: #111827; /* Tailwind gray-900 */
+    --color-card: #1F2937; /* Tailwind gray-800 */
+    --color-text-dark: #F9FAFB; /* Tailwind gray-50 */
+    --color-text-gray: #9CA3AF; /* Tailwind gray-400 */
+}

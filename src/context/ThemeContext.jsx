@@ -11,19 +11,25 @@ export const ThemeContext = createContext(undefined);
  * @returns {React.ReactElement} Theme context provider.
  */
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    try {
+      const savedTheme = localStorage.getItem('startup-crm-lite:theme');
+      if (savedTheme) {
+        return JSON.parse(savedTheme) === 'dark';
+      }
+      return false;
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
+    localStorage.setItem('startup-crm-lite:theme', JSON.stringify(isDarkMode ? 'dark' : 'light'));
   }, [isDarkMode]);
 
-  /**
-   * Toggles dark mode on and off.
-   *
-   * @returns {void}
-   */
   const toggleTheme = useCallback(() => {
-    setIsDarkMode((currentValue) => !currentValue);
+    setIsDarkMode((prev) => !prev);
   }, []);
 
   const value = useMemo(() => ({ isDarkMode, toggleTheme }), [isDarkMode, toggleTheme]);

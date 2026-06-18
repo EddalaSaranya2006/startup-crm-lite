@@ -54,21 +54,21 @@ const PipelineOverview = ({ leads = [] }) => {
   });
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-xs">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-xs dark:shadow-none">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-bold text-gray-900">Pipeline Stage Distribution</h3>
-          <p className="text-sm text-gray-500">Distribution of {totalLeads} leads across active deal stages</p>
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">Pipeline Stage Distribution</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Distribution of {totalLeads} leads across active deal stages</p>
         </div>
-        <span className="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-semibold rounded-full">
+        <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-semibold rounded-full">
           Active Pipeline
         </span>
       </div>
 
       {/* Visual Horizontal Segments Bar */}
-      <div className="h-6 w-full bg-gray-100 rounded-full overflow-hidden flex mb-6 shadow-inner">
+      <div className="h-6 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden flex mb-6 shadow-inner">
         {totalLeads === 0 ? (
-          <div className="w-full h-full bg-gray-200 flex items-center justify-center text-xs text-gray-400">
+          <div className="w-full h-full bg-gray-200 flex items-center justify-center text-xs text-gray-400 dark:text-gray-500">
             No leads in pipeline
           </div>
         ) : (
@@ -104,17 +104,17 @@ const PipelineOverview = ({ leads = [] }) => {
           return (
             <div
               key={key}
-              className="p-3 bg-gray-50/50 rounded-xl border border-gray-100 flex flex-col justify-between hover:bg-gray-50 transition-colors"
+              className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800 flex flex-col justify-between hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               <div>
                 <span className={`inline-block px-2 py-0.5 rounded-md text-xs font-medium ${config.badgeClass} mb-2`}>
                   {config.label}
                 </span>
-                <div className="text-xl font-bold text-gray-900 font-roboto">{count}</div>
+                <div className="text-xl font-bold text-gray-900 dark:text-white font-roboto">{count}</div>
               </div>
-              <div className="mt-2 flex items-center justify-between text-xs text-gray-500 border-t border-gray-100/50 pt-2">
+              <div className="mt-2 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800/50 pt-2">
                 <span>{percentage.toFixed(0)}%</span>
-                <span className="font-medium text-gray-700">
+                <span className="font-medium text-gray-700 dark:text-gray-300">
                   ${value.toLocaleString()}
                 </span>
               </div>

@@ -29,6 +29,8 @@ const INITIAL_LEADS = [
     value: 15000,
     createdAt: '2026-06-15T09:30:00.000Z',
     dateAdded: '2026-06-15T09:30:00.000Z',
+    owner: 'Sarah',
+    wonAt: '2026-06-25T12:00:00Z',
   },
   {
     id: '2',
@@ -41,6 +43,8 @@ const INITIAL_LEADS = [
     value: 8500,
     createdAt: '2026-06-14T14:15:00.000Z',
     dateAdded: '2026-06-14T14:15:00.000Z',
+    owner: 'Alex',
+    contactedAt: '2026-06-16T11:00:00Z',
   },
   {
     id: '3',
@@ -53,6 +57,8 @@ const INITIAL_LEADS = [
     value: 24000,
     createdAt: '2026-06-12T10:00:00.000Z',
     dateAdded: '2026-06-12T10:00:00.000Z',
+    owner: 'David',
+    proposalAt: '2026-06-20T10:00:00Z',
   },
   {
     id: '4',
@@ -65,6 +71,7 @@ const INITIAL_LEADS = [
     value: 5000,
     createdAt: '2026-06-10T16:45:00.000Z',
     dateAdded: '2026-06-10T16:45:00.000Z',
+    owner: 'Emma',
   },
   {
     id: '5',
@@ -77,6 +84,8 @@ const INITIAL_LEADS = [
     value: 3200,
     createdAt: '2026-06-08T11:20:00.000Z',
     dateAdded: '2026-06-08T11:20:00.000Z',
+    owner: 'John',
+    closedAt: '2026-06-20T11:20:00Z',
   },
   {
     id: '6',
@@ -89,6 +98,8 @@ const INITIAL_LEADS = [
     value: 50000,
     createdAt: '2026-06-05T09:00:00.000Z',
     dateAdded: '2026-06-05T09:00:00.000Z',
+    owner: 'Sarah',
+    wonAt: '2026-06-18T09:00:00Z',
   },
   {
     id: '7',
@@ -101,6 +112,8 @@ const INITIAL_LEADS = [
     value: 12000,
     createdAt: '2026-06-03T15:30:00.000Z',
     dateAdded: '2026-06-03T15:30:00.000Z',
+    owner: 'Alex',
+    proposalAt: '2026-06-15T15:30:00Z',
   },
   {
     id: '8',
@@ -113,6 +126,8 @@ const INITIAL_LEADS = [
     value: 4500,
     createdAt: '2026-06-01T10:00:00.000Z',
     dateAdded: '2026-06-01T10:00:00.000Z',
+    owner: 'David',
+    contactedAt: '2026-06-05T10:00:00Z',
   },
 ];
 
@@ -139,6 +154,12 @@ const normalizeLead = (lead) => {
     value: Number(lead.value) || 0,
     createdAt,
     dateAdded: createdAt,
+    owner: lead.owner || 'Unassigned',
+    contactedAt: lead.contactedAt || null,
+    meetingAt: lead.meetingAt || null,
+    proposalAt: lead.proposalAt || null,
+    wonAt: lead.wonAt || null,
+    closedAt: lead.closedAt || null,
   };
 };
 

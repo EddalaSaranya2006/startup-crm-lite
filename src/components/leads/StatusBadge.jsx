@@ -10,7 +10,7 @@
  */
 const StatusBadge = ({ status }) => {
   const statusConfig = {
-    'new': 'bg-gray-100 text-gray-700 border-gray-200',
+    'new': 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700',
     'contacted': 'bg-blue-50 text-blue-700 border-blue-200/60',
     'meeting scheduled': 'bg-purple-50 text-purple-700 border-purple-200/60',
     'proposal sent': 'bg-indigo-50 text-indigo-700 border-indigo-200/60',
@@ -19,7 +19,7 @@ const StatusBadge = ({ status }) => {
   };
 
   const normalizedStatus = (status || '').toLowerCase().trim();
-  const classes = statusConfig[normalizedStatus] || 'bg-gray-100 text-gray-700 border-gray-200';
+  const classes = statusConfig[normalizedStatus] || 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700';
 
   return (
     <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${classes}`}>

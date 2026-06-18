@@ -51,11 +51,11 @@ const RecentLeads = ({ leads = [] }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
-      <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-xs dark:shadow-none overflow-hidden">
+      <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-bold text-gray-900">Recent Leads</h3>
-          <p className="text-sm text-gray-500">Track and monitor the latest additions to your pipeline</p>
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">Recent Leads</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Track and monitor the latest additions to your pipeline</p>
         </div>
         <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-md">
           Last 5 added
@@ -65,49 +65,49 @@ const RecentLeads = ({ leads = [] }) => {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-gray-50/70 border-b border-gray-100">
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Company</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Value</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Date Added</th>
+            <tr className="bg-gray-50 dark:bg-gray-900/70 border-b border-gray-100 dark:border-gray-800">
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Company</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Value</th>
+              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date Added</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {recentLeads.length === 0 ? (
               <tr>
-                <td colSpan="5" className="px-6 py-10 text-center text-sm text-gray-400">
+                <td colSpan="5" className="px-6 py-10 text-center text-sm text-gray-400 dark:text-gray-500">
                   No leads available. Add some leads to get started.
                 </td>
               </tr>
             ) : (
               recentLeads.map((lead) => {
                 const normalizedStatus = (lead.status === 'Proposal' ? 'Proposal Sent' : lead.status || 'New').toLowerCase();
-                const badgeStyle = statusBadgeStyles[normalizedStatus] || 'text-gray-600 bg-gray-100 border-gray-200';
+                const badgeStyle = statusBadgeStyles[normalizedStatus] || 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700';
 
                 return (
                   <tr
                     key={lead.id}
-                    className="hover:bg-gray-50/80 transition-colors duration-150 group"
+                    className="hover:bg-gray-50 dark:hover:bg-gray-800/80 transition-colors duration-150 group"
                   >
                     <td className="px-6 py-4">
-                      <div className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                      <div className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
                         {lead.name}
                       </div>
                       {lead.email && (
-                        <div className="text-xs text-gray-400 font-normal mt-0.5">{lead.email}</div>
+                        <div className="text-xs text-gray-400 dark:text-gray-500 font-normal mt-0.5">{lead.email}</div>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{lead.company}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{lead.company}</td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${badgeStyle}`}>
                         {lead.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm font-semibold text-gray-900 font-roboto">
+                    <td className="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white font-roboto">
                       ${(lead.value || 0).toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">{formatDate(lead.createdAt || lead.dateAdded)}</td>
+                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{formatDate(lead.createdAt || lead.dateAdded)}</td>
                   </tr>
                 );
               })

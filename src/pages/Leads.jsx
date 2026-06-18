@@ -132,22 +132,22 @@ const Leads = () => {
   const showEmptyState = filteredLeads.length === 0;
 
   return (
-    <div className="p-6 md:p-8 min-h-screen bg-background">
+    <div className="p-6 md:p-8 min-h-screen bg-background dark:bg-gray-900">
       {/* Toast provider */}
       <Toaster position="top-right" />
 
       {/* Main Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold text-text-dark tracking-tight">Lead Management</h1>
-          <p className="text-text-gray mt-1 font-medium">
+          <h1 className="text-3xl font-extrabold text-text-dark dark:text-white tracking-tight">Lead Management</h1>
+          <p className="text-text-gray dark:text-gray-400 mt-1 font-medium">
             Monitor, edit, and organize your potential CRM deals and customer pipelines.
           </p>
         </div>
 
         <button
           onClick={handleAddClick}
-          className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/95 text-white font-semibold py-2.5 px-5 rounded-xl shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer"
+          className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/95 text-white font-semibold py-2.5 px-5 rounded-xl shadow-xs dark:shadow-none hover:shadow-md transition-all duration-200 cursor-pointer"
         >
           <Plus className="w-5 h-5 stroke-[2.5]" />
           <span>Add Lead</span>
@@ -155,7 +155,7 @@ const Leads = () => {
       </div>
 
       {/* Filter Action Bar */}
-      <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-xs mb-6 space-y-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-100 dark:border-gray-800 shadow-xs dark:shadow-none mb-6 space-y-4">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex-1">
             <SearchBar
@@ -166,11 +166,11 @@ const Leads = () => {
           </div>
 
           <div className="flex items-center justify-end">
-            <div className="flex items-center border border-gray-200 rounded-xl p-1 bg-gray-50/50">
+            <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl p-1 bg-gray-50 dark:bg-gray-900/50">
               <button
                 onClick={() => setViewMode('table')}
                 className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                  viewMode === 'table' ? 'bg-white text-primary shadow-xs' : 'text-gray-400 hover:text-gray-700'
+                  viewMode === 'table' ? 'bg-white dark:bg-gray-800 text-primary shadow-xs dark:shadow-none' : 'text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
                 title="Table view"
                 aria-label="Toggle Table View"
@@ -180,7 +180,7 @@ const Leads = () => {
               <button
                 onClick={() => setViewMode('card')}
                 className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                  viewMode === 'card' ? 'bg-white text-primary shadow-xs' : 'text-gray-400 hover:text-gray-700'
+                  viewMode === 'card' ? 'bg-white dark:bg-gray-800 text-primary shadow-xs dark:shadow-none' : 'text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
                 title="Card grid view"
                 aria-label="Toggle Card View"
@@ -191,13 +191,13 @@ const Leads = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-100 pt-4 transition-all duration-300">
+        <div className="border-t border-gray-100 dark:border-gray-800 pt-4 transition-all duration-300">
           <FilterBar activeFilter={activeFilter} onFilterChange={setActiveFilter} leads={leads} />
         </div>
 
         {hasActiveFilters && (
-          <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-gray-100">
-            <span className="text-xs font-semibold text-gray-500 mr-1">Active filters:</span>
+          <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 mr-1">Active filters:</span>
             {searchQuery && (
               <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-lg border border-blue-100">
                 Search: "{searchQuery}"
@@ -216,7 +216,7 @@ const Leads = () => {
             )}
             <button
               onClick={resetFilters}
-              className="text-xs font-bold text-gray-500 hover:text-primary transition-colors hover:underline cursor-pointer"
+              className="text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-primary transition-colors hover:underline cursor-pointer"
             >
               Clear all
             </button>
@@ -268,15 +268,15 @@ const Leads = () => {
       {/* Add / Edit Form Modal Dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-gray-100 overflow-hidden transform transition-all duration-300 scale-100">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-lg shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden transform transition-all duration-300 scale-100">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">
+            <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                 {selectedLead ? 'Edit Lead Details' : 'Add New Lead'}
               </h3>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-50"
+                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-400 transition-colors p-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 <X className="w-5 h-5" />
               </button>

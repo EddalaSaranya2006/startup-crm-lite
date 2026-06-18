@@ -104,19 +104,19 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 min-h-screen bg-background">
+    <div className="p-6 md:p-8 min-h-screen bg-background dark:bg-gray-900">
       {/* Toast notifications */}
       <Toaster position="top-right" />
 
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-text-dark tracking-tight">Dashboard</h1>
-          <p className="text-text-gray mt-1 font-medium">
+          <h1 className="text-3xl font-extrabold text-text-dark dark:text-white tracking-tight">Dashboard</h1>
+          <p className="text-text-gray dark:text-gray-400 mt-1 font-medium">
             Welcome back! Monitor your business performance and manage incoming deals.
           </p>
         </div>
-        <div className="flex items-center gap-2 text-sm text-text-gray font-semibold bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-xs">
+        <div className="flex items-center gap-2 text-sm text-text-gray dark:text-gray-400 font-semibold bg-white dark:bg-gray-800 px-4 py-2 rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs dark:shadow-none">
           <span className="w-2 h-2 rounded-full bg-success animate-pulse"></span>
           <span>Live Metrics</span>
         </div>
@@ -183,7 +183,7 @@ const Dashboard = () => {
               <div className="h-2 w-full bg-blue-900/40 rounded-full overflow-hidden">
                 <div
                   style={{ width: `${Math.min(100, (leads.filter(l => l.status.toLowerCase() === 'won').reduce((sum, l) => sum + l.value, 0) / 150000) * 100)}%` }}
-                  className="h-full bg-white rounded-full transition-all duration-1000"
+                  className="h-full bg-white dark:bg-gray-800 rounded-full transition-all duration-1000"
                 />
               </div>
             </div>
@@ -194,13 +194,13 @@ const Dashboard = () => {
       {/* Add Lead Dialog Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-gray-100 overflow-hidden transform transition-all duration-300 scale-100">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden transform transition-all duration-300 scale-100">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">Add New Lead</h3>
+            <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">Add New Lead</h3>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-50"
+                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-400 transition-colors p-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -211,7 +211,7 @@ const Dashboard = () => {
               <div className="p-6 space-y-4">
                 {/* Contact Name */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
                     Contact Name *
                   </label>
                   <input
@@ -221,13 +221,13 @@ const Dashboard = () => {
                     value={newLead.name}
                     onChange={handleInputChange}
                     placeholder="e.g. John Doe"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900 dark:text-white"
                   />
                 </div>
 
                 {/* Company Name */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
                     Company *
                   </label>
                   <input
@@ -237,13 +237,13 @@ const Dashboard = () => {
                     value={newLead.company}
                     onChange={handleInputChange}
                     placeholder="e.g. Acme Corp"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900 dark:text-white"
                   />
                 </div>
 
                 {/* Email Address */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
                     Email Address
                   </label>
                   <input
@@ -252,21 +252,21 @@ const Dashboard = () => {
                     value={newLead.email}
                     onChange={handleInputChange}
                     placeholder="e.g. john@acme.com"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900 dark:text-white"
                   />
                 </div>
 
                 {/* Lead Status & Value */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                    <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
                       Status
                     </label>
                     <select
                       name="status"
                       value={newLead.status}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-white transition-all text-gray-900"
+                      className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-white dark:bg-gray-800 transition-all text-gray-900 dark:text-white"
                     >
                       <option value="New">New</option>
                       <option value="Contacted">Contacted</option>
@@ -277,7 +277,7 @@ const Dashboard = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                    <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
                       Deal Value ($)
                     </label>
                     <input
@@ -287,24 +287,24 @@ const Dashboard = () => {
                       value={newLead.value}
                       onChange={handleInputChange}
                       placeholder="e.g. 15000"
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900"
+                      className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Modal Footer */}
-              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-3">
+              <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-100 text-sm font-semibold transition-all cursor-pointer"
+                  className="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-semibold transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-primary hover:bg-primary/95 text-white rounded-lg text-sm font-semibold transition-all shadow-xs cursor-pointer"
+                  className="px-4 py-2 bg-primary hover:bg-primary/95 text-white rounded-lg text-sm font-semibold transition-all shadow-xs dark:shadow-none cursor-pointer"
                 >
                   Add Lead
                 </button>

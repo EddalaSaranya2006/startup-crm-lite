@@ -21,8 +21,8 @@ const FilterBar = ({ activeFilter, onFilterChange, leads = [] }) => {
             onClick={() => onFilterChange(filter)}
             className={`rounded-xl border px-3 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${
               isActive
-                ? 'border-primary bg-primary text-white shadow-xs shadow-primary/20'
-                : 'border-gray-200 bg-white text-gray-600 hover:border-primary/30 hover:bg-primary/5 hover:text-primary'
+                ? 'border-primary bg-primary text-white shadow-xs dark:shadow-none shadow-primary/20'
+                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:border-primary/30 hover:bg-primary/5 hover:text-primary'
             }`}
             aria-pressed={isActive}
           >

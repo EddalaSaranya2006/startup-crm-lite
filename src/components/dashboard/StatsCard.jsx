@@ -51,11 +51,11 @@ const StatsCard = ({ title, value, icon: Icon, change, color = 'primary' }) => {
   const style = colorMap[color] || colorMap.primary;
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-xs hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex flex-col justify-between">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-xs dark:shadow-none hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 flex flex-col justify-between">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</p>
-          <h3 className="text-3xl font-bold text-gray-900 mt-2 font-roboto">{value}</h3>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{title}</p>
+          <h3 className="text-3xl font-bold text-gray-900 dark:text-white mt-2 font-roboto">{value}</h3>
         </div>
         <div className={`p-3 rounded-xl ${style.bg} ${style.border} border`}>
           <Icon className={`w-6 h-6 ${style.iconColor}`} />
@@ -77,7 +77,7 @@ const StatsCard = ({ title, value, icon: Icon, change, color = 'primary' }) => {
           )}
           {Math.abs(change).toFixed(1)}%
         </span>
-        <span className="text-gray-400 ml-2">vs last month</span>
+        <span className="text-gray-400 dark:text-gray-500 ml-2">vs last month</span>
       </div>
     </div>
   );
