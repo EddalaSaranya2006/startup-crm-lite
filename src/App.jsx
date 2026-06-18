@@ -7,8 +7,8 @@ function App() {
   return (
     // Wrap the entire application in BrowserRouter to enable routing
     <BrowserRouter>
-      {/* Main layout wrapper: column on mobile, row on tablet/desktop */}
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col md:flex-row">
+      {/* Main layout wrapper: column on mobile, row on tablet/desktop, centered on 1440px+ */}
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col md:flex-row mx-auto max-w-[1440px] w-full">
         {/* Persistent Sidebar on the left (or bottom/top on mobile) */}
         <Sidebar />
 
