@@ -26,14 +26,14 @@ const SearchBar = ({ value, onChange }) => {
         onChange={(event) => setInputValue(event.target.value)}
         placeholder="Search by name, company, or email..."
         aria-label="Search leads by name, company, or email"
-        className="w-full rounded-xl border border-gray-200 dark:border-gray-700 py-2.5 pl-10 pr-10 text-sm text-gray-900 dark:text-white transition-all duration-200 placeholder:text-gray-400 dark:text-gray-500 focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
+        className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 py-3 md:py-2.5 pl-10 pr-10 text-base md:text-sm text-gray-900 dark:text-white transition-all duration-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 min-h-[44px]"
       />
       {inputValue && (
         <button
           type="button"
           onClick={handleClear}
           aria-label="Clear search"
-          className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg text-gray-400 dark:text-gray-500 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+          className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-gray-400 dark:text-gray-500 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
         >
           <X className="h-4 w-4" />
         </button>

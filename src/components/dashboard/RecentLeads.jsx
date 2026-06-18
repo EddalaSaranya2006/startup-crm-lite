@@ -26,12 +26,12 @@ const RecentLeads = ({ leads = [] }) => {
 
   // Status badge style mapping
   const statusBadgeStyles = {
-    new: 'text-primary bg-primary/10 border border-primary/20',
-    contacted: 'text-warning bg-warning/10 border border-warning/20',
-    'meeting scheduled': 'text-sky-600 bg-sky-50 border border-sky-100',
-    'proposal sent': 'text-indigo-600 bg-indigo-50 border border-indigo-100',
-    won: 'text-success bg-success/10 border border-success/20',
-    lost: 'text-danger bg-danger/10 border border-danger/20',
+    new: 'text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700',
+    contacted: 'text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800',
+    'meeting scheduled': 'text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-900/30 border border-sky-100 dark:border-sky-800',
+    'proposal sent': 'text-indigo-700 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800',
+    won: 'text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800',
+    lost: 'text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800',
   };
 
   /**
@@ -57,20 +57,27 @@ const RecentLeads = ({ leads = [] }) => {
           <h3 className="text-lg font-bold text-gray-900 dark:text-white">Recent Leads</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">Track and monitor the latest additions to your pipeline</p>
         </div>
-        <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-md">
+        <span className="px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-semibold rounded-md border border-blue-200 dark:border-blue-800">
           Last 5 added
         </span>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+      <div className="overflow-hidden">
+        <table className="w-full table-fixed text-left border-collapse">
+          <colgroup>
+            <col className="w-[28%]" />
+            <col className="w-[28%]" />
+            <col className="w-[18%]" />
+            <col className="w-[13%]" />
+            <col className="w-[13%]" />
+          </colgroup>
           <thead>
             <tr className="bg-gray-50 dark:bg-gray-900/70 border-b border-gray-100 dark:border-gray-800">
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Company</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Value</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date Added</th>
+              <th className="px-3 py-4 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
+              <th className="px-3 py-4 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Company</th>
+              <th className="px-3 py-4 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+              <th className="px-3 py-4 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Value</th>
+              <th className="px-3 py-4 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date Added</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -90,24 +97,24 @@ const RecentLeads = ({ leads = [] }) => {
                     key={lead.id}
                     className="hover:bg-gray-50 dark:hover:bg-gray-800/80 transition-colors duration-150 group"
                   >
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                    <td className="px-3 py-4 align-top">
+                      <div className="text-xs font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors break-words">
                         {lead.name}
                       </div>
                       {lead.email && (
-                        <div className="text-xs text-gray-400 dark:text-gray-500 font-normal mt-0.5">{lead.email}</div>
+                        <div className="text-[10px] text-gray-400 dark:text-gray-500 font-normal mt-0.5 break-words">{lead.email}</div>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{lead.company}</td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${badgeStyle}`}>
+                    <td className="px-3 py-4 align-top text-xs text-gray-600 dark:text-gray-400 break-words">{lead.company}</td>
+                    <td className="px-3 py-4 align-top">
+                      <span className={`inline-flex max-w-full items-center px-2 py-1 rounded-full text-[10px] leading-tight font-medium whitespace-normal ${badgeStyle}`}>
                         {lead.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white font-roboto">
+                    <td className="px-3 py-4 align-top text-xs font-semibold text-gray-900 dark:text-white font-roboto whitespace-nowrap">
                       ${(lead.value || 0).toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{formatDate(lead.createdAt || lead.dateAdded)}</td>
+                    <td className="px-3 py-4 align-top text-[11px] leading-snug text-gray-500 dark:text-gray-400">{formatDate(lead.createdAt || lead.dateAdded)}</td>
                   </tr>
                 );
               })

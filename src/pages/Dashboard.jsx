@@ -5,6 +5,7 @@ import StatsCard from '../components/dashboard/StatsCard';
 import PipelineOverview from '../components/dashboard/PipelineOverview';
 import RecentLeads from '../components/dashboard/RecentLeads';
 import QuickActions from '../components/dashboard/QuickActions';
+import PageContainer from '../components/layout/PageContainer';
 import { useLeads } from '../context/LeadContext';
 
 /**
@@ -104,26 +105,27 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 min-h-screen bg-background dark:bg-gray-900">
+    <div className="min-h-screen bg-background dark:bg-gray-900">
       {/* Toast notifications */}
       <Toaster position="top-right" />
 
+      <PageContainer className="py-4 md:py-6 lg:py-8">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 md:mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-text-dark dark:text-white tracking-tight">Dashboard</h1>
-          <p className="text-text-gray dark:text-gray-400 mt-1 font-medium">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-text-dark dark:text-white tracking-tight">Dashboard</h1>
+          <p className="text-text-gray dark:text-gray-400 mt-1 font-medium text-sm md:text-base">
             Welcome back! Monitor your business performance and manage incoming deals.
           </p>
         </div>
-        <div className="flex items-center gap-2 text-sm text-text-gray dark:text-gray-400 font-semibold bg-white dark:bg-gray-800 px-4 py-2 rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs dark:shadow-none">
+        <div className="flex items-center gap-2 text-sm text-text-gray dark:text-gray-400 font-semibold bg-white dark:bg-gray-800 px-4 py-2 rounded-xl border border-gray-100 dark:border-gray-800 shadow-xs dark:shadow-none self-start sm:self-auto">
           <span className="w-2 h-2 rounded-full bg-success animate-pulse"></span>
           <span>Live Metrics</span>
         </div>
       </div>
 
       {/* Stats Cards Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         <StatsCard
           title="Total Leads"
           value={totalLeads}
@@ -155,15 +157,15 @@ const Dashboard = () => {
       </div>
 
       {/* Main Layout Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,70fr)_minmax(0,30fr)] gap-6 mt-8">
         {/* Left Section (Pipeline and Recent Leads) */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6">
           <PipelineOverview leads={leads} />
           <RecentLeads leads={leads} />
         </div>
 
         {/* Right Section (Quick Actions & Metrics Info Card) */}
-        <div className="space-y-6">
+        <div className="space-y-6 lg:mt-6">
           <QuickActions onAddLead={() => setIsAddModalOpen(true)} />
           
           {/* Informational Widget / Metric Guide */}
@@ -193,22 +195,22 @@ const Dashboard = () => {
 
       {/* Add Lead Dialog Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-xs p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden transform transition-all duration-300 scale-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center md:p-4 bg-gray-900/60 backdrop-blur-xs">
+          <div className="bg-white dark:bg-gray-800 w-full h-full min-h-screen md:h-auto md:min-h-0 md:max-w-md md:rounded-2xl shadow-2xl border-0 md:border border-gray-100 dark:border-gray-800 flex flex-col md:block overflow-hidden transform transition-all duration-300 scale-100">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+            <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between shrink-0">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">Add New Lead</h3>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-400 transition-colors p-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-400 transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6 md:w-5 md:h-5" />
               </button>
             </div>
 
             {/* Modal Form */}
-            <form onSubmit={handleAddLeadSubmit}>
-              <div className="p-6 space-y-4">
+            <form onSubmit={handleAddLeadSubmit} className="flex flex-col flex-1 overflow-hidden">
+              <div className="p-6 space-y-4 flex-1 overflow-y-auto">
                 {/* Contact Name */}
                 <div>
                   <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
@@ -221,7 +223,7 @@ const Dashboard = () => {
                     value={newLead.name}
                     onChange={handleInputChange}
                     placeholder="e.g. John Doe"
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-200 dark:border-gray-700 rounded-xl md:rounded-lg bg-white dark:bg-gray-900 focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-base md:text-sm transition-all text-gray-900 dark:text-white"
                   />
                 </div>
 
@@ -237,7 +239,7 @@ const Dashboard = () => {
                     value={newLead.company}
                     onChange={handleInputChange}
                     placeholder="e.g. Acme Corp"
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-200 dark:border-gray-700 rounded-xl md:rounded-lg bg-white dark:bg-gray-900 focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-base md:text-sm transition-all text-gray-900 dark:text-white"
                   />
                 </div>
 
@@ -252,12 +254,12 @@ const Dashboard = () => {
                     value={newLead.email}
                     onChange={handleInputChange}
                     placeholder="e.g. john@acme.com"
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-200 dark:border-gray-700 rounded-xl md:rounded-lg bg-white dark:bg-gray-900 focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-base md:text-sm transition-all text-gray-900 dark:text-white"
                   />
                 </div>
 
                 {/* Lead Status & Value */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
                       Status
@@ -266,7 +268,7 @@ const Dashboard = () => {
                       name="status"
                       value={newLead.status}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-white dark:bg-gray-800 transition-all text-gray-900 dark:text-white"
+                      className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-200 dark:border-gray-700 rounded-xl md:rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-base md:text-sm bg-white dark:bg-gray-900 transition-all text-gray-900 dark:text-white"
                     >
                       <option value="New">New</option>
                       <option value="Contacted">Contacted</option>
@@ -287,24 +289,24 @@ const Dashboard = () => {
                       value={newLead.value}
                       onChange={handleInputChange}
                       placeholder="e.g. 15000"
-                      className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm transition-all text-gray-900 dark:text-white"
+                      className="w-full px-4 py-3 md:px-3 md:py-2 border border-gray-200 dark:border-gray-700 rounded-xl md:rounded-lg bg-white dark:bg-gray-900 focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary text-base md:text-sm transition-all text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Modal Footer */}
-              <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end gap-3">
+              <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row items-center justify-end gap-3 shrink-0 pb-safe">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-semibold transition-all cursor-pointer"
+                  className="w-full md:w-auto px-4 py-3 md:py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-xl md:rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-base md:text-sm font-semibold transition-all cursor-pointer min-h-[44px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-primary hover:bg-primary/95 text-white rounded-lg text-sm font-semibold transition-all shadow-xs dark:shadow-none cursor-pointer"
+                  className="w-full md:w-auto px-4 py-3 md:py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-xl md:rounded-lg text-base md:text-sm font-semibold transition-all shadow-sm hover:shadow-md dark:shadow-none cursor-pointer min-h-[44px]"
                 >
                   Add Lead
                 </button>
@@ -313,6 +315,7 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+      </PageContainer>
     </div>
   );
 };

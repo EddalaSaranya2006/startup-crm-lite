@@ -21,12 +21,12 @@
 const PipelineOverview = ({ leads = [] }) => {
   // Define configuration for pipeline statuses
   const STATUS_CONFIG = {
-    New: { label: 'New', colorClass: 'bg-primary', textClass: 'text-primary', badgeClass: 'bg-primary/10 text-primary border-primary/20' },
-    Contacted: { label: 'Contacted', colorClass: 'bg-warning', textClass: 'text-warning', badgeClass: 'bg-warning/10 text-warning border-warning/20' },
-    'Meeting Scheduled': { label: 'Meeting Scheduled', colorClass: 'bg-sky-500', textClass: 'text-sky-600', badgeClass: 'bg-sky-50 text-sky-600 border-sky-100' },
-    'Proposal Sent': { label: 'Proposal Sent', colorClass: 'bg-indigo-500', textClass: 'text-indigo-600', badgeClass: 'bg-indigo-50 text-indigo-600 border-indigo-100' },
-    Won: { label: 'Won', colorClass: 'bg-success', textClass: 'text-success', badgeClass: 'bg-success/10 text-success border-success/20' },
-    Lost: { label: 'Lost', colorClass: 'bg-danger', textClass: 'text-danger', badgeClass: 'bg-danger/10 text-danger border-danger/20' },
+    New: { label: 'New', colorClass: 'bg-blue-600', textClass: 'text-blue-600', badgeClass: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800' },
+    Contacted: { label: 'Contacted', colorClass: 'bg-orange-500', textClass: 'text-orange-600', badgeClass: 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 border-orange-200 dark:border-orange-800' },
+    'Meeting Scheduled': { label: 'Meeting Scheduled', colorClass: 'bg-sky-500', textClass: 'text-sky-600', badgeClass: 'bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400 border-sky-200 dark:border-sky-800' },
+    'Proposal Sent': { label: 'Proposal Sent', colorClass: 'bg-indigo-500', textClass: 'text-indigo-600', badgeClass: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800' },
+    Won: { label: 'Won', colorClass: 'bg-green-600', textClass: 'text-green-600', badgeClass: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800' },
+    Lost: { label: 'Lost', colorClass: 'bg-red-600', textClass: 'text-red-600', badgeClass: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800' },
   };
 
   const totalLeads = leads.length;

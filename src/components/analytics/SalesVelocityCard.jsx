@@ -29,7 +29,7 @@ const SalesVelocityCard = ({ velocity }) => {
         </div>
       </div>
 
-      <div className="relative z-10 grid grid-cols-3 gap-4 bg-white dark:bg-gray-800/10 backdrop-blur-sm rounded-xl p-4">
+      <div className="relative z-10 grid grid-cols-3 gap-4 bg-white/15 dark:bg-gray-800/10 backdrop-blur-sm rounded-xl p-4">
         <div>
           <div className="flex items-center gap-1.5 mb-1 text-indigo-100">
             <Target className="w-3.5 h-3.5" />

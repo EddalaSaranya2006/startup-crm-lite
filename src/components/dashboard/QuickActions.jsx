@@ -52,7 +52,7 @@ const QuickActions = ({ onAddLead }) => {
         {/* Add New Lead Button */}
         <button
           onClick={onAddLead || (() => navigate('/leads', { state: { openAddModal: true } }))}
-          className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/95 text-white font-semibold py-3 px-4 rounded-xl shadow-xs dark:shadow-none hover:shadow-md transition-all duration-200 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl shadow-sm hover:shadow-md dark:shadow-none transition-all duration-200 cursor-pointer min-h-[44px]"
         >
           <Plus className="w-5 h-5 stroke-[2.5]" />
           <span>Add New Lead</span>
@@ -61,9 +61,9 @@ const QuickActions = ({ onAddLead }) => {
         {/* View All Leads Button */}
         <button
           onClick={() => navigate('/leads')}
-          className="w-full flex items-center justify-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-300 transition-all duration-200 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-200 cursor-pointer min-h-[44px]"
         >
-          <List className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+          <List className="w-5 h-5 text-slate-500 dark:text-slate-400" />
           <span>View All Leads</span>
         </button>
 
@@ -71,9 +71,9 @@ const QuickActions = ({ onAddLead }) => {
         <button
           onClick={handleExport}
           disabled={isExporting}
-          className="w-full flex items-center justify-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-300 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
         >
-          <Download className={`w-5 h-5 text-gray-500 dark:text-gray-400 ${isExporting ? 'animate-bounce' : ''}`} />
+          <Download className={`w-5 h-5 text-slate-500 dark:text-slate-400 ${isExporting ? 'animate-bounce' : ''}`} />
           <span>{isExporting ? 'Exporting...' : 'Export Data'}</span>
         </button>
       </div>

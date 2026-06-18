@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
+import PageContainer from '../components/layout/PageContainer';
 
 // NotFound component to handle 404 errors for unknown routes
 const NotFound = () => {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <PageContainer className="min-h-[80vh] flex flex-col items-center justify-center py-4 md:py-6 lg:py-8">
       {/* Error Code */}
       <h1 className="text-6xl font-bold text-red-500 mb-4">404</h1>
       
@@ -17,6 +19,7 @@ const NotFound = () => {
       >
         Go Back Home
       </Link>
+      </PageContainer>
     </div>
   );
 };
