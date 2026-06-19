@@ -226,11 +226,19 @@ export const LeadProvider = ({ children }) => {
    */
   const addLead = useCallback((leadData) => {
     const createdAt = new Date().toISOString();
+    const status = leadData.status || 'New';
+    const now = createdAt;
+    
     const newLead = normalizeLead({
       ...leadData,
       id: createLeadId(),
       createdAt,
       dateAdded: createdAt,
+      contactedAt: status === 'Contacted' ? now : null,
+      meetingAt: status === 'Meeting Scheduled' ? now : null,
+      proposalAt: status === 'Proposal Sent' ? now : null,
+      wonAt: status === 'Won' ? now : null,
+      closedAt: status === 'Lost' ? now : null,
     });
 
     setLeads((currentLeads) => [newLead, ...currentLeads]);
@@ -246,11 +254,23 @@ export const LeadProvider = ({ children }) => {
    */
   const updateLead = useCallback((id, leadData) => {
     setLeads((currentLeads) =>
-      currentLeads.map((lead) =>
-        lead.id === id
-          ? normalizeLead({ ...lead, ...leadData, id: lead.id, createdAt: lead.createdAt })
-          : lead
-      )
+      currentLeads.map((lead) => {
+        if (lead.id === id) {
+          const updated = { ...lead, ...leadData, id: lead.id, createdAt: lead.createdAt };
+          
+          if (leadData.status && leadData.status !== lead.status) {
+            const now = new Date().toISOString();
+            if (leadData.status === 'Contacted' && !updated.contactedAt) updated.contactedAt = now;
+            if (leadData.status === 'Meeting Scheduled' && !updated.meetingAt) updated.meetingAt = now;
+            if (leadData.status === 'Proposal Sent' && !updated.proposalAt) updated.proposalAt = now;
+            if (leadData.status === 'Won' && !updated.wonAt) updated.wonAt = now;
+            if (leadData.status === 'Lost' && !updated.closedAt) updated.closedAt = now;
+          }
+          
+          return normalizeLead(updated);
+        }
+        return lead;
+      })
     );
   }, []);
 

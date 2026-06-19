@@ -299,12 +299,12 @@ export const getTopPerformers = (leads) => {
   const winsMap = {};
 
   leads.forEach((l) => {
-    if (!l.owner || l.owner === 'Unassigned') return;
-    revenueMap[l.owner] = revenueMap[l.owner] || 0;
-    winsMap[l.owner] = winsMap[l.owner] || 0;
+    const owner = l.owner || 'Unassigned';
+    revenueMap[owner] = revenueMap[owner] || 0;
+    winsMap[owner] = winsMap[owner] || 0;
     if (l.status === 'Won') {
-      revenueMap[l.owner] += l.value || 0;
-      winsMap[l.owner] += 1;
+      revenueMap[owner] += l.value || 0;
+      winsMap[owner] += 1;
     }
   });
 
@@ -331,9 +331,9 @@ export const getTopProspectors = (leads) => {
   const prospectingMap = {};
 
   leads.forEach((l) => {
-    if (!l.owner || l.owner === 'Unassigned') return;
+    const owner = l.owner || 'Unassigned';
     if (l.status === 'New' || l.status === 'Contacted') {
-      prospectingMap[l.owner] = (prospectingMap[l.owner] || 0) + 1;
+      prospectingMap[owner] = (prospectingMap[owner] || 0) + 1;
     }
   });
 

@@ -8,6 +8,7 @@ import { useState, useCallback, useEffect } from 'react';
  * @property {string} phone
  * @property {string} status
  * @property {string} source
+ * @property {string} owner
  * @property {number|string} value
  */
 
@@ -39,6 +40,7 @@ const LeadForm = ({ initialData, onSubmit, onCancel }) => {
       phone: data?.phone || '',
       status: data?.status || 'New',
       source: data?.source || 'Website',
+      owner: data?.owner || 'Unassigned',
       value: data?.value !== undefined ? data.value : '',
     }),
     []
@@ -57,6 +59,7 @@ const LeadForm = ({ initialData, onSubmit, onCancel }) => {
   // Valid status and source options
   const statusOptions = ['New', 'Contacted', 'Meeting Scheduled', 'Proposal Sent', 'Won', 'Lost'];
   const sourceOptions = ['Website', 'Referral', 'LinkedIn', 'Cold Call', 'Email Campaign', 'Other'];
+  const ownerOptions = ['Unassigned', 'Sarah', 'Alex', 'David', 'Emma', 'John'];
 
   /**
    * Performs client-side validation check of form fields.
@@ -253,21 +256,42 @@ const LeadForm = ({ initialData, onSubmit, onCancel }) => {
         </div>
       </div>
 
-      {/* Deal Value */}
-      <div>
-        <label htmlFor="value" className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
-          Deal Value ($)
-        </label>
-        <input
-          id="value"
-          type="number"
-          name="value"
-          min="0"
-          value={formData.value}
-          onChange={handleChange}
-          placeholder="e.g. 5000"
-          className="w-full px-4 py-3 md:px-3.5 md:py-2 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-base md:text-sm focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-gray-900 dark:text-white"
-        />
+      {/* Owner & Deal Value — 2-col on sm+ */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="owner" className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
+            Owner
+          </label>
+          <select
+            id="owner"
+            name="owner"
+            value={formData.owner}
+            onChange={handleChange}
+            className="w-full px-4 py-3 md:px-3.5 md:py-2 border border-gray-200 dark:border-gray-700 rounded-xl text-base md:text-sm focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary bg-white dark:bg-gray-900 transition-all text-gray-900 dark:text-white"
+          >
+            {ownerOptions.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="value" className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-1">
+            Deal Value ($)
+          </label>
+          <input
+            id="value"
+            type="number"
+            name="value"
+            min="0"
+            value={formData.value}
+            onChange={handleChange}
+            placeholder="e.g. 5000"
+            className="w-full px-4 py-3 md:px-3.5 md:py-2 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-base md:text-sm focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-gray-900 dark:text-white"
+          />
+        </div>
       </div>
 
       {/* Form Actions — stack on mobile, row on sm+ */}
