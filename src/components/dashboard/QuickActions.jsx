@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, List, Download } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useLeads } from '../../context/LeadContext';
+import { exportLeadsToCSV } from '../../utils/exportHelpers';
 
 /**
  * QuickActions Component
@@ -14,6 +16,7 @@ import { toast } from 'react-hot-toast';
  */
 const QuickActions = ({ onAddLead }) => {
   const navigate = useNavigate();
+  const { leads } = useLeads();
   const [isExporting, setIsExporting] = useState(false);
 
   /**
@@ -32,6 +35,7 @@ const QuickActions = ({ onAddLead }) => {
     });
 
     setTimeout(() => {
+      exportLeadsToCSV(leads);
       toast.success('Leads data exported successfully as CSV!', {
         id: toastId,
         duration: 3000,

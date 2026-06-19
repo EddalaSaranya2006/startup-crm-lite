@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { BarChart3, Download, RefreshCw } from 'lucide-react';
 import { toast, Toaster } from 'react-hot-toast';
+import { exportLeadsToCSV } from '../utils/exportHelpers';
 import AnalyticsFilters from '../components/analytics/AnalyticsFilters';
 import StatsCards from '../components/analytics/StatsCards';
 import PieChartCard from '../components/analytics/PieChartCard';
@@ -66,6 +67,7 @@ const Analytics = () => {
     });
 
     setTimeout(() => {
+      exportLeadsToCSV(leads);
       toast.success('Analytics data exported successfully as CSV!', {
         id: toastId,
         duration: 3000,
