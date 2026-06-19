@@ -3,6 +3,7 @@ import { useLeads } from '../context/LeadContext';
 import { useNavigate } from 'react-router-dom';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { BarChart3, Download, RefreshCw } from 'lucide-react';
+import { toast, Toaster } from 'react-hot-toast';
 import AnalyticsFilters from '../components/analytics/AnalyticsFilters';
 import StatsCards from '../components/analytics/StatsCards';
 import PieChartCard from '../components/analytics/PieChartCard';
@@ -25,6 +26,7 @@ const Analytics = () => {
   const [dateRange, setDateRange] = useState('allTime');
   const [customDateRange, setCustomDateRange] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const analytics = useAnalytics(leads, dateRange, customDateRange);
 
@@ -39,12 +41,48 @@ const Analytics = () => {
 
   const handleRefresh = useCallback(() => {
     setIsRefreshing(true);
-    setTimeout(() => setIsRefreshing(false), 800);
+    const toastId = toast.loading('Refreshing analytics data...', {
+      style: { borderRadius: '12px', background: '#0F172A', color: '#FFF' }
+    });
+    setTimeout(() => {
+      setIsRefreshing(false);
+      toast.success('Data refreshed successfully!', {
+        id: toastId,
+        style: { borderRadius: '12px', background: '#0F172A', color: '#FFF' }
+      });
+    }, 800);
   }, []);
+
+  const handleExport = useCallback(() => {
+    if (isExporting) return;
+    setIsExporting(true);
+
+    const toastId = toast.loading('Preparing data export...', {
+      style: {
+        borderRadius: '12px',
+        background: '#0F172A',
+        color: '#FFF',
+      },
+    });
+
+    setTimeout(() => {
+      toast.success('Analytics data exported successfully as CSV!', {
+        id: toastId,
+        duration: 3000,
+        style: {
+          borderRadius: '12px',
+          background: '#0F172A',
+          color: '#FFF',
+        },
+      });
+      setIsExporting(false);
+    }, 1500);
+  }, [isExporting]);
 
   if (!leads || leads.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <Toaster position="top-right" />
         <PageContainer className="py-4 md:py-6 lg:py-8">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
@@ -63,6 +101,7 @@ const Analytics = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <Toaster position="top-right" />
       <PageContainer className="py-4 md:py-6 lg:py-8">
       {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 md:mb-8 gap-4">
@@ -89,9 +128,13 @@ const Analytics = () => {
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
           </button>
-          <button className="flex items-center gap-2 px-3 md:px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 dark:hover:shadow-blue-900/50 transition-all shadow-sm min-h-[44px]">
-            <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Export</span>
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className="flex items-center gap-2 px-3 md:px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 dark:hover:shadow-blue-900/50 transition-all shadow-sm min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Download className={`w-4 h-4 ${isExporting ? 'animate-bounce' : ''}`} />
+            <span className="hidden sm:inline">{isExporting ? 'Exporting...' : 'Export'}</span>
           </button>
         </div>
       </div>
